@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Import(TestSpringKafkaTestcontainersDemoApplication.class)
+@Import({TestSpringKafkaTestcontainersDemoApplication.class})
 @EmbeddedKafka(partitions = 1, bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @ExtendWith(TestConsumerParameterResolver.class)
 class SpringKafkaTestcontainersDemoApplicationTests {
