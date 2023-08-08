@@ -19,7 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Import({TestSpringKafkaTestcontainersDemoApplication.class})
-@EmbeddedKafka(partitions = 1, bootstrapServersProperty = "spring.kafka.bootstrap-servers")
+@EmbeddedKafka(
+        partitions = 1,
+        bootstrapServersProperty = "spring.kafka.bootstrap-servers" // https://github.com/spring-projects/spring-kafka/issues/2750
+)
 @ExtendWith(TestConsumerParameterResolver.class)
 class SpringKafkaTestcontainersDemoApplicationTests {
 
