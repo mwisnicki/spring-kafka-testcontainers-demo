@@ -22,7 +22,7 @@ public class TestSpringKafkaTestcontainersDemoApplication {
         return new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
     }
 
-    @KafkaListener(topics = "topic1", groupId = "test-log")
+    //@KafkaListener(topics = "topic1", groupId = "test-log")
     void onMessage(ConsumerRecord<String, String> record) {
         log.error("Message received: {}", record);
     }
