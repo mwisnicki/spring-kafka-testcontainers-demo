@@ -15,8 +15,10 @@ import java.util.regex.Pattern;
  * Resolve {@link Consumer} parameter to per-test instance of consumer suitable for use with {@link org.springframework.kafka.test.utils.KafkaTestUtils}.
  */
 public class TestConsumerParameterResolver implements ParameterResolver, TestInstancePreDestroyCallback {
+    // drop invalid chars as well as occurrence of Consumer word that is added because of parameter
+    private static final Pattern invalidIdPattern = Pattern.compile("[^a-zA-Z0-9._-]|(\\bConsumer\\b)+");
+
     private final List<Consumer<?, ?>> consumers = new ArrayList<>();
-    private final Pattern invalidIdPattern = Pattern.compile("[^a-zA-Z0-9._-]|(\\bConsumer\\b)+");
 
     private String normalizeGroupId(String testName) {
         return invalidIdPattern.matcher(testName).replaceAll("");
@@ -25,7 +27,6 @@ public class TestConsumerParameterResolver implements ParameterResolver, TestIns
     @Override
     public void preDestroyTestInstance(ExtensionContext context) {
         TestInstancePreDestroyCallback.preDestroyTestInstances(context, testInstance -> {
-            // custom logic that processes testInstance
             consumers.forEach(Consumer::close);
             consumers.clear();
         });
@@ -39,6 +40,7 @@ public class TestConsumerParameterResolver implements ParameterResolver, TestIns
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         var appContext = SpringExtension.getApplicationContext(extensionContext);
+        // FIXME we should get factory with matching parameters in case there are many but this does not seem to work
         //ObjectProvider<ConsumerFactory<?, ?>> consumerFactoryProvider = appContext.getBeanProvider(ResolvableType.forType(parameterContext.getParameter().getParameterizedType()));
         var consumerFactoryProvider = appContext.getBeanProvider(ConsumerFactory.class);
         var consumerFactory = consumerFactoryProvider.getObject();
