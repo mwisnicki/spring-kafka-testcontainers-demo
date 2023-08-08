@@ -1,7 +1,5 @@
 package com.example.springkafkatestcontainersdemo;
 
-import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
-import org.apache.kafka.common.TopicPartition;
 import org.assertj.core.util.IterableUtil;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -11,16 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.test.EmbeddedKafkaBroker;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @SpringBootTest
 @Import(TestSpringKafkaTestcontainersDemoApplication.class)
+@EmbeddedKafka(partitions = 1, bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 class SpringKafkaTestcontainersDemoApplicationTests {
 
     static final Logger log = LoggerFactory.getLogger(SpringKafkaTestcontainersDemoApplicationTests.class);

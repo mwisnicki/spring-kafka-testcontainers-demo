@@ -16,11 +16,13 @@ public class TestSpringKafkaTestcontainersDemoApplication {
 
     static final Logger log = LoggerFactory.getLogger(TestSpringKafkaTestcontainersDemoApplication.class);
 
-    @Bean
-    @ServiceConnection
-    KafkaContainer kafkaContainer() {
-        return new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
-    }
+
+
+//    @Bean
+//    @ServiceConnection
+//    KafkaContainer kafkaContainer() {
+//        return new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+//    }
 
     //@KafkaListener(topics = "topic1", groupId = "test-log")
     void onMessage(ConsumerRecord<String, String> record) {
